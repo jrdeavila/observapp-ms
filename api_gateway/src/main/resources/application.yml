@@ -34,10 +34,3 @@ spring:
             - Path=/users-managment/v1/**
           filters:
             - RewritePath=/users-managment/v1,/
-
-        - id: dashboard
-          uri: http://dashboard
-          predicates:
-            - Path=/**
-          filters:
-            - RewritePath=/,/

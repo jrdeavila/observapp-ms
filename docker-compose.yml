@@ -70,16 +70,6 @@ services:
     networks:
       - default
 
-  dashboard:
-    build:
-      context: ./admin_dashboard
-      dockerfile: Dockerfile
-    container_name: dashboard
-    volumes:
-      - ./admin_dashboard:/app
-    networks:
-      - default
-
   users:
     build:
       context: ./users_managment
