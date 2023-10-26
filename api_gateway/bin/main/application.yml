@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          use-insecure-trust-manager: true
+      routes:
+        - id: authentication-service
+          uri: http://localhost:8000/
+          predicates:
+            - Path=/auth/v1/**
+          filters:
+            - RewritePath=/auth/v1,/
+        - id: metabase-service
+          uri: http://localhost:3000
+          predicates:
+            - Path=/metabase/**
+          filters:
+            - RewritePath=/metabase,/
+        - id: section-service
+          uri: http://localhost:4000
+          predicates:
+            - Path=/customer-service/v1/**
+          filters:
+            - RewritePath=/customer-service/v1,/

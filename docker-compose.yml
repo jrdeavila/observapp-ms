@@ -1,0 +1,101 @@
+version: "3.1"
+
+services:
+  gateway:
+    build:
+      context: ./api_gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    ports:
+      - "${API_GATEWAY_PORT:-8080}:8080"
+    volumes:
+      - ./api_gateway:/app
+    networks:
+      - default
+    depends_on:
+      - authentication
+      - observapp
+      - metabase
+
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: database
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+      - ./database/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    networks:
+      - default
+
+  authentication:
+    build:
+      context: ./authentication
+      dockerfile: Dockerfile
+    container_name: authentication
+    volumes:
+      - ./authentication:/var/www/html
+    networks:
+      - default
+    depends_on:
+      - database
+
+  observapp:
+    build:
+      context: ./section_manager/
+      dockerfile: Dockerfile
+    container_name: observapp
+    volumes:
+      - ./section_manager:/var/www/html
+    networks:
+      - default
+    depends_on:
+      - database
+
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    volumes:
+      - observapp:/metabase-data
+    environment:
+      - MB_DB_FILE=/metabase-data/metabase.db
+      - MB_DB_TYPE=h2
+      - MB_JETTY_PORT=3000
+      - MB_JETTY_HOST=
+    networks:
+      - default
+
+  dashboard:
+    build:
+      context: ./admin_dashboard
+      dockerfile: Dockerfile
+    container_name: dashboard
+    volumes:
+      - ./admin_dashboard:/app
+    networks:
+      - default
+
+  users:
+    build:
+      context: ./users_managment
+      dockerfile: Dockerfile
+    container_name: users
+    volumes:
+      - ./users_managment:/var/www/html
+    networks:
+      - default
+
+volumes:
+  observapp:
+    driver: local
+  pgsql:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
