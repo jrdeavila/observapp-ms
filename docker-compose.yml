@@ -3,22 +3,6 @@ version: "3.1"
 # Building a save in my registry
 
 services:
-  gateway:
-    build:
-      context: ./api_gateway
-      dockerfile: Dockerfile
-    container_name: gateway
-    ports:
-      - "${API_GATEWAY_PORT:-8080}:8080"
-    volumes:
-      - ./api_gateway:/app
-    networks:
-      - default
-    depends_on:
-      - authentication
-      - observapp
-      - metabase
-
   database:
     build:
       context: ./database
@@ -35,6 +19,58 @@ services:
     networks:
       - default
 
+  gateway:
+    build:
+      context: ./api_gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    ports:
+      - "${API_GATEWAY_PORT:-8080}:8080"
+    volumes:
+      - ./api_gateway:/app
+    networks:
+      - default
+    depends_on:
+      - database
+      - authentication-composer
+      - observapp-composer
+      - users-composer
+      - metabase
+      - authentication
+      - observapp
+      - users
+
+  # Installing Composer dependencies for each service
+  authentication-composer:
+    image: composer:latest
+    container_name: authentication-composer
+    volumes:
+      - ./authentication:/app
+    command: install
+    working_dir: /app
+    networks:
+      - default
+
+  observapp-composer:
+    image: composer:latest
+    container_name: observapp-composer
+    volumes:
+      - ./section_manager:/app
+    command: install
+    working_dir: /app
+    networks:
+      - default
+
+  users-composer:
+    image: composer:latest
+    container_name: users-composer
+    volumes:
+      - ./users_managment:/app
+    command: install
+    working_dir: /app
+    networks:
+      - default
+
   authentication:
     image: jrdeavila/laravel-ms-image:v1
     container_name: authentication
@@ -42,8 +78,7 @@ services:
       - ./authentication:/var/www/html
     networks:
       - default
-    depends_on:
-      - database
+    restart: on-failure
 
   observapp:
     image: jrdeavila/laravel-ms-image:v1
@@ -52,8 +87,8 @@ services:
       - ./section_manager:/var/www/html
     networks:
       - default
-    depends_on:
-      - database
+    tty: true
+    restart: on-failure
 
   metabase:
     image: metabase/metabase
@@ -75,6 +110,7 @@ services:
       - ./users_managment:/var/www/html
     networks:
       - default
+    restart: on-failure
 
 volumes:
   observapp:
