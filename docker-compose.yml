@@ -1,5 +1,7 @@
 version: "3.1"
 
+# Building a save in my registry
+
 services:
   gateway:
     build:
@@ -34,9 +36,7 @@ services:
       - default
 
   authentication:
-    build:
-      context: ./authentication
-      dockerfile: Dockerfile
+    image: jrdeavila/laravel-ms-image:v1
     container_name: authentication
     volumes:
       - ./authentication:/var/www/html
@@ -46,9 +46,7 @@ services:
       - database
 
   observapp:
-    build:
-      context: ./section_manager/
-      dockerfile: Dockerfile
+    image: jrdeavila/laravel-ms-image:v1
     container_name: observapp
     volumes:
       - ./section_manager:/var/www/html
@@ -71,9 +69,7 @@ services:
       - default
 
   users:
-    build:
-      context: ./users_managment
-      dockerfile: Dockerfile
+    image: jrdeavila/laravel-ms-image:v1
     container_name: users
     volumes:
       - ./users_managment:/var/www/html
