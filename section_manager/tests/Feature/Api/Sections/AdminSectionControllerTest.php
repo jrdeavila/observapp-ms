@@ -26,6 +26,7 @@ class AdminSectionControllerTest extends TestCase
                     '*' => [
                         'id',
                         'title',
+                        'description',
                         'slug',
                         'image',
                     ]
@@ -51,15 +52,7 @@ class AdminSectionControllerTest extends TestCase
                     'title',
                     'description',
                     'image',
-                    'sub-sections' => [
-                        '*' => [
-                            'id',
-                            'title',
-                            'slug',
-                            'description',
-                            'image'
-                        ]
-                    ]
+                    'slug',
                 ]
             ]);
     }
@@ -84,15 +77,7 @@ class AdminSectionControllerTest extends TestCase
                     'title',
                     'description',
                     'image',
-                    'sub-sections' => [
-                        '*' => [
-                            'id',
-                            'title',
-                            'slug',
-                            'description',
-                            'image'
-                        ]
-                    ]
+                    'slug',
                 ]
             ]);
     }

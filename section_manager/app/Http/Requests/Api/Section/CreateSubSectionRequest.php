@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\Section;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateSubSectionRequest extends FormRequest
 {
@@ -22,7 +23,12 @@ class CreateSubSectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|unique:sub_sections,title,' . $this->subsection->id . '|max:255',
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('sub_sections')->ignore($this->subsection),
+            ],
             'description' => 'sometimes|string|max:255',
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'dashboard_url' => 'sometimes|string',
