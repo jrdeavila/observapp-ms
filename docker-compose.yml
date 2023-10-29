@@ -81,7 +81,7 @@ services:
     restart: on-failure
 
   observapp:
-    image: jrdeavila/laravel-ms-image:v1
+    image: jrdeavila/laravel-ms-image:v2
     container_name: observapp
     volumes:
       - ./section_manager:/var/www/html

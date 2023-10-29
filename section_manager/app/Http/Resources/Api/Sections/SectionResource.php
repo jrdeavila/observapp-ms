@@ -18,6 +18,7 @@ class SectionResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
+            'description' => $this->description,
             'image' => $this->image,
         ];
     }

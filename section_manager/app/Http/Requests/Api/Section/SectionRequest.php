@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\Section;
 
 use App\Models\Section;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class SectionRequest extends FormRequest
 {
@@ -24,9 +24,21 @@ class SectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|unique:sections,title|max:255',
-            'description' => 'nullable|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' =>  [
+                'required',
+                'string',
+                'max:255',
+
+            ],
+            'description' => 'sometimes|string|max:255',
+            'image' => [
+                'sometimes',
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048',
+
+
+            ]
         ];
     }
 
@@ -72,7 +84,22 @@ class SectionRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            Section::where('slug', $this->generateSlug())->exists() ? $validator->errors()->add('title', 'El título ya existe') : null;
+            // Check if the current section is the same as the one being updated
+            $section = Section::where('slug', $this->generateSlug())->first();
+            if ($section && $section->id !== $this->route('section')->id) {
+                $validator->errors()->add('title', 'El título ya existe');
+            }
         });
+    }
+
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = response()->json([
+            'message' => 'Error de validación',
+            'errors' => $validator->errors(),
+        ], 422);
+
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

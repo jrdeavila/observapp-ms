@@ -28,7 +28,7 @@ class AdminSectionController extends Controller
             'image' => $request->saveImage(),
             'slug' => $request->generateSlug(),
         ]);
-        return new ExtendedSectionResource($section);
+        return new SectionResource($section);
     }
 
     public function update(SectionRequest $request, Section $section)
@@ -38,7 +38,7 @@ class AdminSectionController extends Controller
             'image' => $request->hasFile('image') ? $request->saveImage() : $section->image,
             'slug' => $request->generateSlug(),
         ]);
-        return new ExtendedSectionResource($section);
+        return new SectionResource($section);
     }
 
     public function destroy(Section $section)
