@@ -39,7 +39,7 @@ class AdminSubSectionController extends Controller
 
         $subsection->update([
             ...$request->validated(),
-            'image' => $request->saveImage(),
+            'image' => $request->hasFile('image') ? $request->saveImage() : $section->image,
             'slug' => $request->generateSlug(),
             'section_id' => $section->id,
         ]);
@@ -49,11 +49,7 @@ class AdminSubSectionController extends Controller
 
     public function destroy(Section $section, SubSection $subsection)
     {
-        if ($section->id !== $subsection->section_id) {
-            return response()->json([
-                'message' => 'La subsección no pertenece a la sección',
-            ], 403);
-        }
+        throw_unless($section->id === $subsection->section_id, new HttpException(403, 'La subsección no pertenece a la sección'));
         $subsection->delete();
         return response()->json([
             'message' => 'Subsección eliminada correctamente',

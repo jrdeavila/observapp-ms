@@ -22,10 +22,10 @@ class CreateSubSectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|unique:sub_sections,title|max:255',
-            'description' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'dashboard_url' => 'required|string',
+            'title' => 'required|string|unique:sub_sections,title,' . $this->subsection->id . '|max:255',
+            'description' => 'sometimes|string|max:255',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'dashboard_url' => 'sometimes|string',
         ];
     }
 
@@ -66,5 +66,13 @@ class CreateSubSectionRequest extends FormRequest
             'section_id.required' => 'La sección es requerida',
             'section_id.exists' => 'La sección no existe',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new \Illuminate\Validation\ValidationException($validator, response()->json([
+            'message' => 'Error de validación',
+            'errors' => $validator->errors()
+        ], 422));
     }
 }
