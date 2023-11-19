@@ -1,12 +1,15 @@
 server:
   port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: observapp
+    key-store-type: PKCS12
+    key-alias: miaplicacion
 
 spring:
   cloud:
     gateway:
-      httpclient:
-        ssl:
-          use-insecure-trust-manager: true
       routes:
         - id: authentication-service
           uri: http://authentication

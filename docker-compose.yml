@@ -26,6 +26,7 @@ services:
     container_name: gateway
     ports:
       - "${API_GATEWAY_PORT:-8080}:8080"
+      - "${API_GATEWAY_PORT_SSL:-433}:8080"
     volumes:
       - ./api_gateway:/app
     networks:
