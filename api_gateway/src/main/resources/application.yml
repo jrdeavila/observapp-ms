@@ -1,39 +1,47 @@
 server:
+  address: 0.0.0.0
   port: 8080
-  ssl:
-    enabled: true
-    key-store: classpath:keystore.p12
-    key-store-password: observapp
-    key-store-type: PKCS12
-    key-alias: miaplicacion
 
 spring:
   cloud:
     gateway:
       routes:
         - id: authentication-service
-          uri: http://authentication
+          uri: ${AUTHENTICATION_SERVICE_URL}
           predicates:
             - Path=/auth/v1/**
           filters:
             - RewritePath=/auth/v1,/
+        - id: load-data-service
+          uri: ${LOAD_DATA_SERVICE_URL}
+          predicates:
+            - Path=/api/load-data/v1/**
+          filters:
+            - RewritePath=/api/load-data/v1/,/api/v1/
         - id: metabase-service
-          uri: http://metabase:3000
+          uri: ${METABASE_SERVICE_URL}
           predicates:
             - Path=/metabase/**
           filters:
             - RewritePath=/metabase,/
 
         - id: section-service
-          uri: http://observapp
+          uri: ${OBSERVAPP_SERVICE_URL}
           predicates:
             - Path=/observapp/v1/**
           filters:
             - RewritePath=/observapp/v1,/
 
         - id: users
-          uri: http://users
+          uri: ${USERS_SERVICE_URL}
           predicates:
             - Path=/users-managment/v1/**
           filters:
             - RewritePath=/users-managment/v1,/
+          
+        - id: front
+          uri: ${FRONT_SERVICE_URL}
+          predicates:
+            - Path=/**
+          filters:
+            - RewritePath=/,/

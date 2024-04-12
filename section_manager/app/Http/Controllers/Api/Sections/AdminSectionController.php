@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api\Sections;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\Sections\ExtendedSectionResource;
 use App\Http\Resources\Api\Sections\SectionResource;
 use App\Models\Section;
-use Illuminate\Http\Request;
 use App\Http\Requests\Api\Section\SectionRequest;
 use App\Http\Resources\Api\Sections\SectionCollection;
 

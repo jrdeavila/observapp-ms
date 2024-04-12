@@ -1,8 +1,34 @@
 {
-	"folders": [
+  "folders": [
+    {
+      "path": "./api_gateway",
+      "name": "Gateway"
+    },
+    {
+      "path": "./authentication",
+      "name": "Authentication"
+    },
+    
+    {
+      "path": "./users_managment",
+      "name": "User Management"
+    },
 		{
-			"path": "."
-		}
-	],
-	"settings": {}
+			"path": "./database",
+			"name": "Database Config"
+		},
+        {
+          "path": "./authentication-v2",
+          "name": "Authentication V2"
+        },
+    {
+      "path": "./load-data",
+      "name": "Load Data"
+    },
+    {
+    "path": "./front",
+    "name": "Front"
+    }
+  ],
+  "settings": {}
 }

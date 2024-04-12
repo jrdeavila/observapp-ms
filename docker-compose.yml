@@ -18,6 +18,15 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     networks:
       - default
+    
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - default
+  
 
   gateway:
     build:
@@ -31,6 +40,13 @@ services:
       - ./api_gateway:/app
     networks:
       - default
+    environment:
+      - FRONT_SERVICE_URL=http://front:5173
+      - LOAD_DATA_SERVICE_URL=http://load-data:8000
+      - AUTHENTICATION_SERVICE_URL=http://authentication:8000
+      - OBSERVAPP_SERVICE_URL=http://observapp:8000
+      - USERS_SERVICE_URL=http://users:8000
+      - METABASE_SERVICE_URL=http://metabase:3000
     depends_on:
       - database
       - authentication-composer
@@ -40,6 +56,29 @@ services:
       - authentication
       - observapp
       - users
+      - mongo
+      - front
+    
+  front:
+    build: 
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - ./front:/usr/src/app
+      - /app/node_modules
+    networks:
+      - default
+
+  load-data:
+    build:
+      context: ./load-data
+      dockerfile: Dockerfile
+    volumes:
+      - ./load-data/app:/app
+    networks:
+      - default
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
 
   # Installing Composer dependencies for each service
   authentication-composer:
@@ -80,6 +119,8 @@ services:
     networks:
       - default
     restart: on-failure
+  
+  
 
   observapp:
     image: jrdeavila/laravel-ms-image:v2

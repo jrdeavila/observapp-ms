@@ -6,14 +6,13 @@ COPY . /app
 
 # If run on debug modo
 
-# RUN ./mvnw spring-boot:run
-
+CMD ["./mvnw", "spring-boot:run"]
 
 # If run on production
 
-RUN ./mvnw clean package
+# RUN ./mvnw clean package
 
-CMD ["java", "-jar", "target/api-gateway-0.0.1-SNAPSHOT.jar"]
+# CMD ["java", "-jar", "target/api-gateway-0.0.1-SNAPSHOT.jar"]
 
 
 EXPOSE 8080

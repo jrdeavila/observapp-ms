@@ -8,7 +8,6 @@ use App\Http\Resources\Api\Sections\SubSectionCollection;
 use App\Http\Resources\Api\Sections\SubSectionResource;
 use App\Models\Section;
 use App\Models\SubSection;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminSubSectionController extends Controller
