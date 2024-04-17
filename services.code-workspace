@@ -17,10 +17,7 @@
 			"path": "./database",
 			"name": "Database Config"
 		},
-        {
-          "path": "./authentication-v2",
-          "name": "Authentication V2"
-        },
+        
     {
       "path": "./load-data",
       "name": "Load Data"
