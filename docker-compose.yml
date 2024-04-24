@@ -15,7 +15,7 @@ services:
     networks:
       - default
     
-  mongo:
+  mongodb:
     image: mongo
     container_name: mongo
     ports:
@@ -52,7 +52,7 @@ services:
       - authentication
       - observapp
       - users
-      - mongo
+      - mongodb
       - front
     
   front:
@@ -74,7 +74,7 @@ services:
     networks:
       - default
     environment:
-      - MONGO_URI=mongodb://mongo:27017
+      - MONGO_URI=mongodb://mongodb:27017
 
   # Installing Composer dependencies for each service
   authentication-composer:

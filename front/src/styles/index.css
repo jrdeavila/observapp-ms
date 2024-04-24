@@ -14,4 +14,8 @@
 }
 
 
+* {
+   user-select: none;
+}
+
 
