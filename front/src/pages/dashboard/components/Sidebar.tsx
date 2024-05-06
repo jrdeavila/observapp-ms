@@ -1,15 +1,18 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
+import styled from "styled-components";
 import DashboardContext from "../contexts/DashboardContext";
 import useDashboard from "../hooks/useDashboard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
 
 interface SideBarProps {
   title: string;
   icon: IconProp;
   active: boolean;
   index: number;
+  clickable?: boolean;
+  onClick?: () => void;
 }
 
 const SideBar: React.FC = () => {
@@ -20,6 +23,8 @@ const SideBar: React.FC = () => {
     icon,
     active,
     index,
+    clickable,
+    onClick,
   }) => {
     const dashboard = useDashboard();
     const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -33,12 +38,18 @@ const SideBar: React.FC = () => {
     const textColor = active ? "text-light" : "text-light";
     return (
       <div
-        onClick={handleClick}
+        onClick={!!clickable ? onClick : handleClick}
         className={`${backgroundColor} p-3 rounded-md cursor-pointer transition duration-300 ease-in-out ${backgroundColorHover} hover:text-white hover:scale-105`}
       >
         <div className="flex flex-row items-center gap-x-3">
           <FontAwesomeIcon icon={icon} size="2x" className={textColor} />
           <p className={`${textColor} text-xl font-bold`}>{title}</p>
+          {!!clickable && (
+            <>
+              <div className="flex-grow"></div>
+              <FontAwesomeIcon icon={faLink} className={textColor} />
+            </>
+          )}
         </div>
       </div>
     );
@@ -57,6 +68,8 @@ const SideBar: React.FC = () => {
                   icon={e.icon}
                   title={e.title}
                   index={i}
+                  clickable={e.clickable}
+                  onClick={e.onClick}
                 />
               </div>
             );

@@ -17,6 +17,10 @@ class AdminSectionController extends Controller
         return new SectionCollection($sections);
     }
 
+    public function show(Section $section): SectionResource
+    {
+        return new SectionResource($section);
+    }
 
 
     public function store(SectionRequest $request)

@@ -23,7 +23,6 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
     Route::apiResource('sections', App\Http\Controllers\Api\Sections\AdminSectionController::class)
-        ->except(['show'])
         ->names('admin.sections');
     Route::apiResource('sections.subsections', App\Http\Controllers\Api\Sections\AdminSubSectionController::class)
         ->only(['store', 'update', 'destroy', 'index'])

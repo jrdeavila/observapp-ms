@@ -25,6 +25,10 @@
     {
     "path": "./front",
     "name": "Front"
+    },
+    {
+    "path": "./section_manager",
+    "name": "Section Management"
     }
   ],
   "settings": {}
