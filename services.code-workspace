@@ -8,27 +8,27 @@
       "path": "./authentication",
       "name": "Authentication"
     },
-    
+
     {
       "path": "./users_managment",
       "name": "User Management"
     },
-		{
-			"path": "./database",
-			"name": "Database Config"
-		},
-        
+    {
+      "path": "./database",
+      "name": "Database Config"
+    },
+
     {
       "path": "./load-data",
       "name": "Load Data"
     },
     {
-    "path": "./front",
-    "name": "Front"
+      "path": "./front",
+      "name": "Front"
     },
     {
-    "path": "./section_manager",
-    "name": "Section Management"
+      "path": "./section_manager",
+      "name": "Section Management"
     }
   ],
   "settings": {}
