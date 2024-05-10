@@ -90,7 +90,10 @@ const ShowSection: React.FC = () => {
       }}
     >
       <SectionActions />
-      <ShowSubSectionList />
+      <div className="relative h-full w-full">
+        <ShowSubSectionList />
+      </div>
+
       <CreateSubSectionProvider sectionId={section.slug}>
         <CreateSubSectionDialog
           open={showCreateSubSectionDialog}

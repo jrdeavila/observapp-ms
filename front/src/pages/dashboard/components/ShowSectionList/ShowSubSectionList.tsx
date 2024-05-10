@@ -13,7 +13,7 @@ const ShowSubSectionList: React.FC<ShowSectionListProps> = () => {
     subSection,
   }) => {
     return (
-      <div className="m-5 p-5 transform transition-all duration-300 hover:scale-105">
+      <div className="w-full m-5 p-5 transform transition-all duration-300 hover:scale-105">
         <Card>
           <StyledCardHeader image={generateImageURL(subSection.image)}>
             <BackgroundFilter className=" flex flex-col justify-end items-start">

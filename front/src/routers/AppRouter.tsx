@@ -1,9 +1,14 @@
-import LoginPage from "@/pages/authentication/pages/LoginPage";
-import Dashboard from "@/pages/dashboard/pages/Dashboard";
-import ShowSection from "@/pages/dashboard/pages/ShowSection";
-import WelcomeRootPage from "@/pages/welcome/pages/WelcomeRootPage";
+import { lazy } from "react";
+
 import { Navigate, RouteObject, createBrowserRouter } from "react-router-dom";
 import GuestLayout from "./layouts/GuestLayout";
+
+const Dashboard = lazy(() => import("@/pages/dashboard/pages/Dashboard"));
+const ShowSection = lazy(() => import("@/pages/dashboard/pages/ShowSection"));
+const LoginPage = lazy(() => import("@/pages/authentication/pages/LoginPage"));
+const WelcomeRootPage = lazy(
+  () => import("@/pages/welcome/pages/WelcomeRootPage")
+);
 
 interface PrivateRouterProps {
   isAuthenticated: boolean;
@@ -13,8 +18,8 @@ const privateRouter: (
   props: PrivateRouterProps & RouteObject
 ) => RouteObject = ({ isAuthenticated, ...props }) => {
   return {
-    element: isAuthenticated ? <Navigate to="/login" /> : props.element,
     ...props,
+    element: isAuthenticated ? <Navigate to="/login" /> : props.element,
   };
 };
 
@@ -24,7 +29,7 @@ const router = createBrowserRouter([
     element: <GuestLayout />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <WelcomeRootPage />,
       },
       {

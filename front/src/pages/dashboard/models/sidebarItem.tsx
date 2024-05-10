@@ -2,6 +2,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faDatabase, faTruckLoading } from "@fortawesome/free-solid-svg-icons";
 import { ReactNode } from "react";
 import SectionManagementTab from "../components/SectionManagementTab/SectionManagementTab";
+import LoadData from "../pages/LoadData";
 
 interface SideBarItemModel {
   title: string;
@@ -20,11 +21,7 @@ export const sideBarItems: SideBarItemModel[] = [
   {
     icon: faTruckLoading,
     title: "Cargue de datos",
-    tab: (
-      <>
-        <h1>Cargue</h1>
-      </>
-    ),
+    tab: <LoadData />,
   },
   {
     icon: faDatabase,
