@@ -71,6 +71,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./load-data/app:/app
+    ports: 
+      - 8000:8000
     networks:
       - default
     environment:

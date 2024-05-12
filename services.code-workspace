@@ -19,7 +19,7 @@
     },
 
     {
-      "path": "./load-data",
+      "path": "./load-data/app",
       "name": "Load Data"
     },
     {

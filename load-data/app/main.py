@@ -9,8 +9,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from core.application.exceptions.message_exception import MessageException
 from core.application.services.background_task_service import BackgroundTaskService
 from core.infrastructure.singleton.configure import configure_singleton
-from api.features.categories.routes import router as category_router
-from api.features.documents.routes import router as document_router
+from api.features.load_data.routes import router as load_data_router
 from core.infrastructure.singleton.container import SingletonContainer
 
 # --------------------------- Variables ---------------------------
@@ -28,12 +27,13 @@ async def lifespan(app: FastAPI):
     task_thread.submit(task_service.run)
     yield
     task_service.stop()
-    SingletonContainer.resolve(Engine).dispose()
 
 
 # --------------------------- Main App ----------------------------
 
-app = FastAPI(title="Library Service API", lifespan=lifespan, root_path="/api/v1")
+app = FastAPI(title="ObservApp Load Data API", lifespan=lifespan, root_path="/api/v1" )
+
+
 
 
 # -----------------------------------------------------------------
@@ -53,9 +53,8 @@ app.add_middleware(
 
 # ------------------------- Include Routers -----------------------
 
-app.include_router(category_router)
-app.include_router(document_router)
 
+app.include_router(load_data_router)
 
 @app.get("/")
 async def api_v1():
