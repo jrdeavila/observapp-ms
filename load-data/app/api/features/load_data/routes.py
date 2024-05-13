@@ -1,5 +1,6 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, File, Form, UploadFile
+from core.domain.entities.database_info import DatabaseInfo
 from core.domain.services.load_data_service import ILoadDataService
 from core.infrastructure.singleton.container import SingletonContainer
 
@@ -13,7 +14,7 @@ def get_load_data_service() -> ILoadDataService:
   return SingletonContainer.resolve(ILoadDataService)
 
 
-@router.get("/", response_model=list[str])
+@router.get("/", response_model=list[DatabaseInfo])
 async def get_load_data(
   load_data_service: ILoadDataService = Depends(get_load_data_service),
 ):

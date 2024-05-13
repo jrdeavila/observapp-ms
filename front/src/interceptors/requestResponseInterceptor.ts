@@ -3,6 +3,15 @@ import { toast } from "react-toastify";
 
 export const baseURL = "http://24.199.78.175/api/";
 
+interface Error404 {
+  name: string;
+  message: string;
+}
+
+const messageErrors: any = {
+  LOAD_DATA_ERROR: "Error al cargar los datos",
+};
+
 let httpClient = axios.create({
   baseURL: baseURL,
 });
@@ -29,6 +38,10 @@ httpClient.interceptors.response.use(
     }
     if (error.response.status === 401) {
       toast.error("No tienes permisos para realizar esta acción");
+    }
+    if (error.response.status === 400) {
+      let err: Error404 = error.response.data;
+      toast.error(messageErrors[err.name] || err.message);
     }
     return Promise.reject(error);
   }

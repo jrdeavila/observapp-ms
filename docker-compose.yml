@@ -76,7 +76,7 @@ services:
     networks:
       - default
     environment:
-      - MONGO_URI=mongodb://mongodb:27017
+      - MONGO_URI=mongodb+srv://doadmin:90r271j8kPiW56Hf@db-mongodb-nyc3-86968-1a81f392.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc3-86968
 
   # Installing Composer dependencies for each service
   authentication-composer:

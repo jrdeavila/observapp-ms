@@ -8,4 +8,8 @@ class DatabaseAlreadyExistsException(MessageException):
 class DatabaseNotFoundException(ResourceNotFound):
   def __init__(self, name: str):
     super().__init__(message=f"Database {name} not found")
+
+class LoadDataException(MessageException):
+  def __init__(self, message: str):
+    super().__init__("LOAD_DATA_ERROR", message, 400)
     

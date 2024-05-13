@@ -8,27 +8,43 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { Formik } from "formik";
 import React from "react";
 import { Form } from "react-router-dom";
+import { sendDatabaseService } from "./services/loadDataService";
+import useLoadData from "../../hooks/useLoadData";
 
 interface LoadDataFormValues {
   name: string;
   file: File | undefined;
+  separator: string;
 }
 interface LoadDataFormErrors {
   name: string;
   file: string;
+  separator: string;
 }
 
 const LoadDataForm: React.FC<{}> = ({}) => {
   let initialValue: LoadDataFormValues = {
     name: "",
+    separator: ";",
     file: undefined,
   };
-  const handleOnCancel = () => {
-    // TODO: Implement on Cancel Event
+
+  const loadData = useLoadData();
+
+  const handleOnSendLoadData = (values: LoadDataFormValues) => {
+    sendDatabaseService(
+      values.name,
+      values.separator,
+      values.file as File
+    ).then(() => {
+      loadData.refreshDatabases();
+    });
   };
 
   return (
@@ -39,11 +55,11 @@ const LoadDataForm: React.FC<{}> = ({}) => {
           let errors: Partial<LoadDataFormErrors> = {};
 
           if (!values.name) {
-            errors.name = "Este campo es requerido";
+            errors.name = "El nombre es requerido";
           }
 
           if (!values.file) {
-            errors.file = "Este campo es requerido";
+            errors.file = "El archivo es requerido";
           } else {
             let [_, extension] = values.file?.name.split(".") ?? ["", ""];
             if (extension != "csv") {
@@ -54,7 +70,7 @@ const LoadDataForm: React.FC<{}> = ({}) => {
           return errors;
         }}
         onSubmit={(values) => {
-          console.log(values);
+          handleOnSendLoadData(values);
         }}
       >
         {({
@@ -64,6 +80,7 @@ const LoadDataForm: React.FC<{}> = ({}) => {
           setFieldValue,
           setFieldTouched,
           values,
+          resetForm,
         }) => (
           <Form onSubmit={handleSubmit}>
             <Card>
@@ -82,6 +99,40 @@ const LoadDataForm: React.FC<{}> = ({}) => {
                       errors.name && touched.name ? errors.name : ""
                     }
                   />
+
+                  <Select
+                    name="separator"
+                    placeholder="Separador"
+                    label="Separador"
+                    value={values.separator}
+                    onSelect={(value) => {
+                      setFieldTouched("separator", true);
+                      setFieldValue("separator", value);
+                    }}
+                  >
+                    {[
+                      {
+                        value: ",",
+                        label: "Coma (,)",
+                      },
+                      {
+                        value: ";",
+                        label: "Punto y coma (;)",
+                      },
+                      {
+                        value: "|",
+                        label: "Pipe (|)",
+                      },
+                    ].map((item) => (
+                      <SelectItem
+                        key={item.value}
+                        value={item.value}
+                        textValue={item.value}
+                      >
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </Select>
                   <FilePicker
                     name="filename"
                     value={values.file}
@@ -99,7 +150,9 @@ const LoadDataForm: React.FC<{}> = ({}) => {
               <CardFooter>
                 <div className="flex flex-row gap-x-1 items-end">
                   <Button
-                    onClick={handleOnCancel}
+                    onClick={() => {
+                      resetForm();
+                    }}
                     type="button"
                     className="bg-primary text-white"
                   >

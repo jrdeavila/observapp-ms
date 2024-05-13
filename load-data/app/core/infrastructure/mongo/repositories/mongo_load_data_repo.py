@@ -1,3 +1,4 @@
+from core.domain.entities.database_info import DatabaseInfo
 from core.domain.repositories.load_data_repo import ILoadDataRepo
 from pymongo.database import Database
 from pymongo.client_session import ClientSession
@@ -15,12 +16,32 @@ class MongoLoadDataRepo(ILoadDataRepo):
   async def load(self, name: str, data: list[dict]) -> None:
     self._database.get_collection(name).insert_many(data, session=self._session)
   
-  async def get_databases(self) -> list[str]:
-    collections = self._database.list_collection_names(
+  async def get_databases(self) -> list[DatabaseInfo]:
+    collections = self._database.list_collections(
       session=self._session
     )
-    return collections
-  
+
+    return [
+      DatabaseInfo(
+        name=collection["name"],
+        records=self._database.get_collection(collection["name"]).count_documents(
+          {},
+          session=self._session
+        ),
+        columns=len(self._database.get_collection(collection["name"]).find_one(
+          {},
+          session=self._session
+        ).keys()),
+        created_at=self._database.get_collection(collection["name"]).find_one(
+          {},
+          session=self._session
+        )["_id"].generation_time,
+        
+      ) for collection in collections
+     ]
+    
+    
+    
   async def get_database(self, name: str) -> list[dict]:
     docs = self._database.get_collection(name).find(
       session=self._session 
