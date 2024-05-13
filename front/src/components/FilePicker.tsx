@@ -14,9 +14,7 @@ const FilePicker: React.FC<{
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-    if (file) {
-      onChange(selectedFile);
-    }
+    onChange(file);
     setSelectedFile(file);
   };
 

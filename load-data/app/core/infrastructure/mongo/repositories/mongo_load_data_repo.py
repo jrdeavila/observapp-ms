@@ -28,10 +28,12 @@ class MongoLoadDataRepo(ILoadDataRepo):
           {},
           session=self._session
         ),
-        columns=len(self._database.get_collection(collection["name"]).find_one(
+        columns=len(
+          [ key for key in self._database.get_collection(collection["name"]).find_one(
           {},
           session=self._session
-        ).keys()),
+        ).keys() if key != "_id"
+            ]),
         created_at=self._database.get_collection(collection["name"]).find_one(
           {},
           session=self._session

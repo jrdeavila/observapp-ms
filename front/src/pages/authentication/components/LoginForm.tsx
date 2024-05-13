@@ -17,12 +17,8 @@ import { Formik } from "formik";
 import React, { useState } from "react";
 import { Form, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { LoginFormValues } from "../models/LoginFormValues";
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
 const LoginForm: React.FC = () => {
   // ======================================================================
   const [showPassword, setShowPassword] = useState<boolean>(false);

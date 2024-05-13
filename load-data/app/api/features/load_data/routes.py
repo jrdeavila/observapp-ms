@@ -6,7 +6,7 @@ from core.infrastructure.singleton.container import SingletonContainer
 
 
 router = APIRouter(
-  prefix="/load-data"
+  prefix="/databases"
 )
 
 

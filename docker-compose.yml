@@ -1,28 +1,4 @@
 services:
-  database:
-    build:
-      context: ./database
-      dockerfile: Dockerfile
-    container_name: database
-    volumes:
-      - pgsql:/var/lib/postgresql/data
-      - ./database/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-    networks:
-      - default
-    
-  mongodb:
-    image: mongo
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    networks:
-      - default
-  
 
   gateway:
     build:
@@ -44,7 +20,6 @@ services:
       - USERS_SERVICE_URL=http://users:80
       - METABASE_SERVICE_URL=http://metabase:3000
     depends_on:
-      - database
       - authentication-composer
       - observapp-composer
       - users-composer
@@ -52,7 +27,6 @@ services:
       - authentication
       - observapp
       - users
-      - mongodb
       - front
     
   front:
@@ -76,7 +50,7 @@ services:
     networks:
       - default
     environment:
-      - MONGO_URI=mongodb+srv://doadmin:90r271j8kPiW56Hf@db-mongodb-nyc3-86968-1a81f392.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc3-86968
+      - MONGO_URI=mongodb+srv://doadmin:Ri1Kwc392I640y7N@db-mongodb-sfo3-33236-1fd3ff5c.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-sfo3-33236
 
   # Installing Composer dependencies for each service
   authentication-composer:

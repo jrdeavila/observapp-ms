@@ -9,5 +9,5 @@ export const sendDatabaseService: (
   formData.append("name", name);
   formData.append("separator", separator);
   formData.append("file", file);
-  await httpClient.post("/l/load-data/", formData);
+  await httpClient.post("/l/databases/", formData);
 };

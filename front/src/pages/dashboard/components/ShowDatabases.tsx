@@ -30,22 +30,27 @@ const ShowDatabases: React.FC<{}> = () => {
     {
       name: "Nombre",
       key: "name",
+      showInMobile: true,
     },
     {
       name: "Registros",
       key: "records",
+      showInMobile: true,
     },
     {
       name: "Columnas",
       key: "columns",
+      showInMobile: true,
     },
     {
       name: "Creada en",
       key: "createdAt",
+      showInMobile: false,
     },
     {
       name: "Acciones",
       key: "actions",
+      showInMobile: false,
     },
   ];
 
@@ -120,14 +125,27 @@ const ShowDatabases: React.FC<{}> = () => {
         <Table shadow="none" aria-label="Bases de datos agregadas">
           <TableHeader columns={columns}>
             {(column) => (
-              <TableColumn key={column.key}>{column.name}</TableColumn>
+              <TableColumn
+                className={!column.showInMobile ? "hidden lg:table-cell" : ""}
+                key={column.key}
+              >
+                {column.name}
+              </TableColumn>
             )}
           </TableHeader>
-          <TableBody items={databases}>
+          <TableBody
+            emptyContent="No hay bases de datos agregadas"
+            items={databases}
+          >
             {(item) => (
               <TableRow key={item.name}>
                 {columns.map((column) => (
-                  <TableCell key={column.key}>
+                  <TableCell
+                    className={
+                      !column.showInMobile ? "hidden lg:table-cell" : ""
+                    }
+                    key={column.key}
+                  >
                     {renderCell(item, column.key)}
                   </TableCell>
                 ))}
