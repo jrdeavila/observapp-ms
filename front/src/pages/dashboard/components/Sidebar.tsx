@@ -82,5 +82,9 @@ const SideBar: React.FC = () => {
 
 const StyledSideBarContent = styled.div`
   width: 20rem;
+
+  @media (max-width: 1024px) {
+    width: 0%;
+  }
 `;
 export default SideBar;
