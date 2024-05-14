@@ -63,8 +63,5 @@ export const fetchSectionService: (
 };
 
 export const generateImageURL: (image: string) => string = (image) => {
-  if (image.includes("public")) {
-    return image.replace("public", baseURL + "o");
-  }
   return baseURL + "o/storage/" + image;
 };

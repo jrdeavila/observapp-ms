@@ -82,6 +82,22 @@ const router = createBrowserRouter(
                 };
               },
             },
+            {
+              path: "/dashboard/section/:slug",
+              lazy: async () => {
+                let ShowSection = await import(
+                  "@/pages/dashboard/pages/ShowSection"
+                );
+
+                return {
+                  element: (
+                    <ProtectedRoute>
+                      <ShowSection.default />
+                    </ProtectedRoute>
+                  ),
+                };
+              },
+            },
           ],
         },
       ],

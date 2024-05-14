@@ -18,6 +18,7 @@ Route::get('/', function () {
     return response()->json(['message' => 'Bienvenido a la API de Autenticacion']);
 });
 
+Route::post("validate-token", App\Http\Controllers\ValidateTokenController::class);
 
 Route::prefix('client')->group(function () {
     Route::post('login', [App\Http\Controllers\Api\Client\AuthenticationController::class, 'login'])->name('client.login');

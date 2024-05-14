@@ -14,6 +14,7 @@ import SectionContext from "./contexts/SectionContext";
 import SectionModel from "./models/section";
 import SectionProvider from "./providers/SectionProvider";
 import SectionManagementActions from "./SectionManagementActions";
+import { generateImageURL } from "./services/sectionService";
 
 const SectionManagementTab: React.FC = () => {
   const SectionManagementIntroduction = () => {
@@ -59,9 +60,18 @@ const SectionList: React.FC = () => {
         className="m-5 p-5 w-1/4 transform transition-all duration-300 hover:scale-105"
       >
         <Card>
-          <CardHeader className="bg-primary-200">
-            <StyledDivCardHeader className="flex justify-center items-center">
-              <FontAwesomeIcon icon={faImage} size="5x" color="white" />
+          <CardHeader className="bg-primary-200 p-0">
+            <StyledDivCardHeader
+              style={{
+                backgroundImage: `url(${generateImageURL(section.image)})`,
+                backgroundSize: "cover",
+                padding: !!section.image ? "0" : "2rem",
+              }}
+              className="flex justify-center items-center"
+            >
+              {!section.image && (
+                <FontAwesomeIcon icon={faImage} size="5x" color="white" />
+              )}
             </StyledDivCardHeader>
           </CardHeader>
           <Divider />
