@@ -1,11 +1,14 @@
+import useSession from "@/hooks/useSession";
 import { faBackspace } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Navbar, NavbarBrand } from "@nextui-org/react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import UserAccountPopover from "./UserAccountPopover";
 
 const AppBar: React.FC = () => {
+  const session = useSession();
   const navigation = useNavigate();
   // ====================================================================
   const handleGoToLogin = () => {
@@ -35,12 +38,16 @@ const AppBar: React.FC = () => {
         <h1 className="text-2xl text-dark font-bold">ObservApp</h1>
       </NavbarBrand>
 
-      <Button
-        onClick={handleGoToLogin}
-        className="bg-primary rounded-lg text-light font-bold"
-      >
-        Iniciar Sesión
-      </Button>
+      {session.active ? (
+        <UserAccountPopover />
+      ) : (
+        <Button
+          onClick={handleGoToLogin}
+          className="bg-primary rounded-lg text-light font-bold"
+        >
+          Iniciar Sesión
+        </Button>
+      )}
     </NavbarStyled>
   );
 };

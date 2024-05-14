@@ -1,57 +1,102 @@
-import { lazy } from "react";
+import { ReactNode } from "react";
 
-import { Navigate, RouteObject, createBrowserRouter } from "react-router-dom";
-import GuestLayout from "./layouts/GuestLayout";
+import useSession from "@/hooks/useSession";
 
-const Dashboard = lazy(() => import("@/pages/dashboard/pages/Dashboard"));
-const ShowSection = lazy(() => import("@/pages/dashboard/pages/ShowSection"));
-const LoginPage = lazy(() => import("@/pages/authentication/pages/LoginPage"));
-const WelcomeRootPage = lazy(
-  () => import("@/pages/welcome/pages/WelcomeRootPage")
-);
+import { Navigate, createBrowserRouter } from "react-router-dom";
 
-interface PrivateRouterProps {
-  isAuthenticated: boolean;
-}
+//  =============================================================================================
 
-const privateRouter: (
-  props: PrivateRouterProps & RouteObject
-) => RouteObject = ({ isAuthenticated, ...props }) => {
-  return {
-    ...props,
-    element: isAuthenticated ? <Navigate to="/login" /> : props.element,
-  };
+const ProtectedRoute: React.FC<{
+  children: ReactNode;
+}> = ({ children }) => {
+  const session = useSession();
+  return session.active ? children : <Navigate to="/login" />;
 };
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <GuestLayout />,
-    children: [
-      {
-        index: true,
-        element: <WelcomeRootPage />,
+const RedirectToDashboardRoute: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const session = useSession();
+  return session.active ? <Navigate to="/dashboard" /> : children;
+};
+
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      lazy: async () => {
+        let GuestLayout = await import("./layouts/GuestLayout");
+        return {
+          Component: GuestLayout.default,
+        };
       },
-      {
-        path: "/login",
-        element: <LoginPage />,
+
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            let WelcomeRootPage = await import(
+              "@/pages/welcome/pages/WelcomeRootPage"
+            );
+
+            return {
+              element: (
+                <RedirectToDashboardRoute>
+                  <WelcomeRootPage.default />
+                </RedirectToDashboardRoute>
+              ),
+            };
+          },
+        },
+        {
+          path: "/login",
+          lazy: async () => {
+            let LoginPage = await import(
+              "@/pages/authentication/pages/LoginPage"
+            );
+            return {
+              element: (
+                <RedirectToDashboardRoute>
+                  <LoginPage.default />
+                </RedirectToDashboardRoute>
+              ),
+            };
+          },
+        },
+        {
+          path: "/dashboard",
+          children: [
+            {
+              index: true,
+              lazy: async () => {
+                let Dashboard = await import(
+                  "@/pages/dashboard/pages/Dashboard"
+                );
+
+                return {
+                  element: (
+                    <ProtectedRoute>
+                      <Dashboard.default />
+                    </ProtectedRoute>
+                  ),
+                };
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: "*",
+      lazy: async () => {
+        let NotFound404 = await import("@/components/NotFound404");
+        return {
+          Component: NotFound404.default,
+        };
       },
-      privateRouter({
-        isAuthenticated: false,
-        path: "/dashboard",
-        children: [
-          {
-            path: "/dashboard/",
-            element: <Dashboard />,
-          },
-          {
-            path: "/dashboard/section/:slug",
-            element: <ShowSection />,
-          },
-        ],
-      }),
-    ],
-  },
-]);
+    },
+  ],
+  {}
+);
 
 export default router;

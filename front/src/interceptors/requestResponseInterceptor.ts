@@ -1,16 +1,9 @@
+import TokenData from "@/pages/authentication/models/tokenData";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Error404, handleValidationError, messageErrors } from "./handlerError";
 
 export const baseURL = "http://24.199.78.175/api/";
-
-interface Error404 {
-  name: string;
-  message: string;
-}
-
-const messageErrors: any = {
-  LOAD_DATA_ERROR: "Error al cargar los datos",
-};
 
 let httpClient = axios.create({
   baseURL: baseURL,
@@ -18,6 +11,9 @@ let httpClient = axios.create({
 
 httpClient.interceptors.request.use(
   function (config) {
+    let strToken = localStorage.getItem("token");
+    let tokenData: TokenData | null = strToken ? JSON.parse(strToken) : null;
+    config.headers["Authorization"] = `Bearer ${tokenData?.token}`;
     return config;
   },
   function (error) {
@@ -31,7 +27,7 @@ httpClient.interceptors.response.use(
   },
   function (error) {
     if (error.response.status === 422) {
-      toast.error("Error de validación, por favor revisa los campos");
+      handleValidationError(error);
     }
     if (error.response.status === 404) {
       toast.error("No se encontró el recurso solicitado");

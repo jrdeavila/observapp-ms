@@ -1,12 +1,18 @@
 import { RouterProvider } from "react-router-dom";
-import router from "./routers/AppRouter";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthenticationProvider from "./providers/AuthenticationProvider";
+import SessionProvider from "./providers/SessionProvider";
+import AppRouter from "./routers/AppRouter";
 
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <SessionProvider>
+        <AuthenticationProvider>
+          <RouterProvider router={AppRouter} />
+        </AuthenticationProvider>
+      </SessionProvider>
       <ToastContainer
         bodyStyle={{
           fontFamily: "Geomanist",

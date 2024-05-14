@@ -1,30 +1,19 @@
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 
 import styled from "styled-components";
-import { Spinner } from "@nextui-org/react";
 
-const AppBar = lazy(() => import("../components/AppBar"));
-const Footer = lazy(() => import("../components/Footer"));
-
-const LoadingPage: React.FC<{}> = () => {
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center">
-      <Spinner className="text-center" color="primary" label="Cargando..." />
-    </div>
-  );
-};
+const AppBar = React.lazy(() => import("../components/AppBar"));
+const Footer = React.lazy(() => import("../components/Footer"));
 
 const GuestLayout: React.FC = () => {
   return (
     <div>
-      <Suspense fallback={<LoadingPage />}>
-        <AppBar />
-        <MainLayout className="w-full">
-          <Outlet />
-        </MainLayout>
-        <Footer />
-      </Suspense>
+      <AppBar />
+      <MainLayout className="w-full">
+        <Outlet />
+      </MainLayout>
+      <Footer />
     </div>
   );
 };

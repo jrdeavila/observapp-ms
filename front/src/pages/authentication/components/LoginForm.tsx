@@ -1,11 +1,12 @@
 import TextField from "@/components/TextField";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useAuth from "@/hooks/useAuth";
 import {
   faEnvelope,
   faEye,
   faEyeSlash,
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -15,7 +16,7 @@ import {
 } from "@nextui-org/react";
 import { Formik } from "formik";
 import React, { useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { Form } from "react-router-dom";
 import styled from "styled-components";
 import { LoginFormValues } from "../models/LoginFormValues";
 
@@ -29,7 +30,7 @@ const LoginForm: React.FC = () => {
     rememberMe: false,
   };
   // ======================================================================
-  const navigation = useNavigate();
+  const authentication = useAuth();
   // ======================================================================
   const handleToggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -44,10 +45,18 @@ const LoginForm: React.FC = () => {
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => {
-            navigation("/dashboard");
+            actions.setSubmitting(true);
+            authentication
+              .login({
+                email: values.email,
+                password: values.password,
+              })
+              .finally(() => {
+                actions.setSubmitting(false);
+              });
           }}
         >
-          {({ handleSubmit, setFieldValue }) => (
+          {({ handleSubmit, setFieldValue, isSubmitting }) => (
             <Form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-y-2">
                 <TextField
@@ -82,7 +91,7 @@ const LoginForm: React.FC = () => {
                   type="submit"
                   className="font-bold text-light bg-primary rounded-lg"
                 >
-                  Entrar
+                  {isSubmitting ? "Iniciando Sesión..." : "Iniciar Sesión"}
                 </Button>
               </div>
             </Form>
