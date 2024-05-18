@@ -13,6 +13,7 @@ import {
   fetchSubsectionsBySectionSlugService,
 } from "../components/SectionManagementTab/services/sectionService";
 import ShowSubSectionList from "../components/ShowSectionList/ShowSubSectionList";
+import { host } from "@/interceptors/requestResponseInterceptor";
 
 const ShowSection: React.FC = () => {
   // ==========================================
@@ -75,6 +76,12 @@ const ShowSection: React.FC = () => {
     setSubSections([...subSections, section]);
   };
 
+  const handleShowDashboard = (dashboaordId: string) => {
+    let url = `http://${host}/metabase/public/dashboard/${dashboaordId}`;
+
+    window.open(url, "_blank");
+  };
+
   // ==========================================
 
   return (
@@ -87,6 +94,7 @@ const ShowSection: React.FC = () => {
         onEdit: handleOnEdit,
         onCreate: handleOnCreate,
         onAdd: handleOnAdd,
+        onShowDashboard: handleShowDashboard,
       }}
     >
       <SectionActions />

@@ -10,6 +10,7 @@ interface ShowSectionContextProps {
   onEdit: () => void;
   onCreate: () => void;
   onAdd: (section: SubSectionModel) => void;
+  onShowDashboard: (_dashboardId: string) => void;
 }
 
 const ShowSectionContext = createContext<ShowSectionContextProps>({
@@ -25,5 +26,6 @@ const ShowSectionContext = createContext<ShowSectionContextProps>({
   onEdit: () => {},
   onCreate: () => {},
   onAdd: () => {},
+  onShowDashboard: () => {},
 });
 export default ShowSectionContext;

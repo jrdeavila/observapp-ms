@@ -8,12 +8,15 @@ import { generateImageURL } from "../SectionManagementTab/services/sectionServic
 interface ShowSectionListProps {}
 
 const ShowSubSectionList: React.FC<ShowSectionListProps> = () => {
-  const { subSections } = useContext(ShowSectionContext);
+  const { subSections, onShowDashboard } = useContext(ShowSectionContext);
   const SubSectionItem: React.FC<{ subSection: SubSectionModel }> = ({
     subSection,
   }) => {
     return (
-      <div className="w-full m-5 p-5 transform transition-all duration-300 hover:scale-105">
+      <div
+        onClick={() => onShowDashboard(subSection.dashboardId)}
+        className="w-full m-5 p-5 transform transition-all duration-300 hover:scale-105"
+      >
         <Card>
           <StyledCardHeader image={generateImageURL(subSection.image)}>
             <BackgroundFilter className=" flex flex-col justify-end items-start">
