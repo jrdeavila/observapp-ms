@@ -27,7 +27,7 @@ class CreateSubSectionRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('sub_sections')->ignore($this->subsection),
+                Rule::unique('sub_sections', 'title')->ignore($this->subsection),
             ],
             'description' => 'sometimes|string|max:255',
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',

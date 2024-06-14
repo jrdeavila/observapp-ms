@@ -7,7 +7,7 @@ interface ShowSectionContextProps {
   section: SectionModel;
   subSections: SubSectionModel[];
   onDelete: () => void;
-  onEdit: () => void;
+  onEdit: (subSection: SubSectionModel) => void;
   onCreate: () => void;
   onAdd: (section: SubSectionModel) => void;
   onShowDashboard: (_dashboardId: string) => void;

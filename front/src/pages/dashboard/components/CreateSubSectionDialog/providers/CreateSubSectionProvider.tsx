@@ -7,6 +7,7 @@ import { fetchMetaBaseDashboards } from "../services/metabaseService";
 import {
   createSubSectionService,
   subSectionFormValuesToRequest,
+  updateSubSectionService,
 } from "../services/subsectionService";
 import useSubSection from "@/pages/dashboard/hooks/useSubSection";
 
@@ -51,6 +52,24 @@ const CreateSubSectionProvider: React.FC<{
     }
   };
 
+  const handleOnUpdateSubSection: (
+    values: CreateSubSectionFormValues
+  ) => Promise<boolean> = async (values: CreateSubSectionFormValues) => {
+    setLoading(true);
+    try {
+      let res = await updateSubSectionService(
+        subSectionFormValuesToRequest(values)
+      );
+      subSectionHook.onEdit(res);
+
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // =======================================================================
 
   return (
@@ -60,6 +79,7 @@ const CreateSubSectionProvider: React.FC<{
         dashboards,
         loading,
         onCreateSubSection: handleOnCreateSubSection,
+        onUpdateSubSection: handleOnUpdateSubSection,
       }}
     >
       {children}

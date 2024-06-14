@@ -2,6 +2,7 @@ import { createContext } from "react";
 import MetaBaseDashboardModel from "../models/metabaseDashboard";
 
 export interface CreateSubSectionFormValues {
+  id?: string;
   title: string;
   description: string;
   image: File | undefined;
@@ -15,6 +16,7 @@ interface CreateSubSectionContextType {
   dashboards: MetaBaseDashboardModel[];
   loading: boolean;
   onCreateSubSection: (values: CreateSubSectionFormValues) => Promise<boolean>;
+  onUpdateSubSection: (values: CreateSubSectionFormValues) => Promise<boolean>;
 }
 
 const CreateSubSectionContext = createContext<CreateSubSectionContextType>({
@@ -22,6 +24,7 @@ const CreateSubSectionContext = createContext<CreateSubSectionContextType>({
   dashboards: [],
   loading: false,
   onCreateSubSection: async (_) => false,
+  onUpdateSubSection: async (_) => false,
 });
 
 export default CreateSubSectionContext;

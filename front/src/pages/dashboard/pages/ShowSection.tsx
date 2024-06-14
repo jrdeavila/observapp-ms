@@ -26,6 +26,9 @@ const ShowSection: React.FC = () => {
   const [subSections, setSubSections] = useState<SubSectionModel[]>([]);
   const [showCreateSubSectionDialog, setShowCreateSubSectionDialog] =
     useState(false);
+  const [subSection, setSubSection] = useState<SubSectionModel | undefined>(
+    undefined
+  );
   const [section, setSection] = useState<SectionModel>({
     description: "",
     image: "",
@@ -58,7 +61,10 @@ const ShowSection: React.FC = () => {
     setDeleteDialogOpen(true);
   };
 
-  const handleOnEdit = () => {};
+  const handleOnEdit = (subSection: SubSectionModel) => {
+    setShowCreateSubSectionDialog(true);
+    setSubSection(subSection);
+  };
 
   const handleOnCreate = () => {
     setShowCreateSubSectionDialog(true);
@@ -109,7 +115,7 @@ const ShowSection: React.FC = () => {
             setShowCreateSubSectionDialog(false);
           }}
           sectionSlug={section.slug}
-          section={undefined}
+          section={subSection}
         />
       </CreateSubSectionProvider>
       <AlertDialog

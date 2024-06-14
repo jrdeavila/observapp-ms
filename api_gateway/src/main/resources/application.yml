@@ -2,9 +2,39 @@ server:
   address: 0.0.0.0
   port: 8080
 
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+
 spring:
+  application:
+    name: observapp
+  httpclient:
+    wiretap: true
+    connect-timeout: 1000
+    read-timeout: 5s
+  httpserver:
+    wiretap: true
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          "[/**]":
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+            maxAge: 3600
       routes:
         - id: authentication-service
           uri: ${AUTHENTICATION_SERVICE_URL}

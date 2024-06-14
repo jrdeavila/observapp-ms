@@ -13,19 +13,27 @@ export interface SubSectionResponse {
   title: string;
 }
 
-export const subSectionModelFromResponse = (response: SubSectionResponse): SubSectionModel => {
+export const subSectionModelFromResponse = (
+  response: SubSectionResponse,
+  sectionSlug: string
+): SubSectionModel => {
   return {
+    sectionSlug: sectionSlug,
     title: response.title,
     description: response.description,
     image: response.image,
     slug: response.slug,
     dashboardId: response.dashboard_url,
   };
-}
+};
 
-export const subSectionModelListFromResponse = (response: SubSectionListResponse): SubSectionModel[] => {
+export const subSectionModelListFromResponse = (
+  response: SubSectionListResponse,
+  sectionSlug: string
+): SubSectionModel[] => {
   return response.data.map((subSection) => {
     return {
+      sectionSlug: sectionSlug,
       title: subSection.title,
       description: subSection.description,
       image: subSection.image,
@@ -33,4 +41,4 @@ export const subSectionModelListFromResponse = (response: SubSectionListResponse
       dashboardId: subSection.dashboard_url,
     };
   });
-}
+};

@@ -36,9 +36,13 @@ const CreateSubSectionDialog: React.FC<CreateSubSectionDialogProps> = ({
   open,
   onClose,
 }) => {
-  const { dashboards, sectionId, onCreateSubSection, loading } = useContext(
-    CreateSubSectionContext
-  );
+  const {
+    dashboards,
+    sectionId,
+    onCreateSubSection,
+    loading,
+    onUpdateSubSection,
+  } = useContext(CreateSubSectionContext);
 
   // =======================================================================
 
@@ -86,6 +90,13 @@ const CreateSubSectionDialog: React.FC<CreateSubSectionDialogProps> = ({
               return errors;
             }}
             onSubmit={async (values) => {
+              if (section) {
+                let res = await onUpdateSubSection(values);
+                if (res) {
+                  onClose();
+                }
+                return;
+              }
               let res = await onCreateSubSection(values);
               if (res) {
                 onClose();

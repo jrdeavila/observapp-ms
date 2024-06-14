@@ -5,7 +5,7 @@ import SubSectionModel from "../components/SectionManagementTab/models/subSectio
 interface UseSubSectionHook {
   onCreate: () => void;
   onDelete: () => void;
-  onEdit: () => void;
+  onEdit: (section: SubSectionModel) => void;
   onAdd: (section: SubSectionModel) => void;
 }
 

@@ -50,7 +50,7 @@ export const fetchSubsectionsBySectionSlugService: (
   let res = await httpClient.get<SubSectionListResponse>(
     "/o/admin/sections/" + sectionSlug + "/subsections/"
   );
-  return subSectionModelListFromResponse(res.data);
+  return subSectionModelListFromResponse(res.data, sectionSlug);
 };
 
 export const fetchSectionService: (
