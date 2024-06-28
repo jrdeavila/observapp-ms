@@ -3,9 +3,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Error404, handleValidationError, messageErrors } from "./handlerError";
 
-export const host = "24.199.78.175";
+export const host = "ec2-100-25-4-141.compute-1.amazonaws.com";
 
-export const baseURL = "http://24.199.78.175/api/";
+export const baseURL = `http://${host}/api/`;
 
 let httpClient = axios.create({
   baseURL: baseURL,

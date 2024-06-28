@@ -22,19 +22,6 @@ spring:
     wiretap: true
   cloud:
     gateway:
-      globalcors:
-        corsConfigurations:
-          "[/**]":
-            allowedOrigins: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-            allowedHeaders:
-              - "*"
-            allowCredentials: true
-            maxAge: 3600
       routes:
         - id: authentication-service
           uri: ${AUTHENTICATION_SERVICE_URL}

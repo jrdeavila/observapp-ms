@@ -5,7 +5,7 @@ import {
   metaBaseDashboardModelFromResponse,
 } from "../responses/MetabaseDashboardResponse";
 
-export const baseURL = "http://24.199.78.175/metabase/api";
+export const baseURL = "http://ec2-100-25-4-141.compute-1.amazonaws.com/metabase/api";
 
 let httpMetaBaseClient = axios.create({
   baseURL: baseURL,
@@ -15,7 +15,7 @@ httpMetaBaseClient.interceptors.request.use(
   function (config) {
     config.headers["Content-Type"] = "application/json";
     config.headers["X-API-KEY"] =
-      "mb_GnmFHGA4UUXO9uMCnA1vPcp7V8UsAbHh/XPZdlRyjmo=";
+      "mb_vu4jW7uZb3uKbea1HrwzMXqgC+4A1AmBJRqPuZpc18g=";
     return config;
   },
   function (error) {
