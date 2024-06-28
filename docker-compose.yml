@@ -1,5 +1,4 @@
 services:
-
   gateway:
     build:
       context: ./api_gateway
@@ -28,9 +27,9 @@ services:
       - observapp
       - users
       - front
-    
+
   front:
-    build: 
+    build:
       context: ./front
       dockerfile: Dockerfile
     volumes:
@@ -45,12 +44,12 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./load-data/app:/app
-    ports: 
+    ports:
       - 8000:8000
     networks:
       - default
     environment:
-      - MONGO_URI=mongodb+srv://doadmin:Ri1Kwc392I640y7N@db-mongodb-sfo3-33236-1fd3ff5c.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-sfo3-33236
+      - MONGO_URI=mongodb://mongo:27017/observapp
 
   # Installing Composer dependencies for each service
   authentication-composer:
@@ -91,8 +90,6 @@ services:
     networks:
       - default
     restart: on-failure
-  
-  
 
   observapp:
     image: jrdeavila/laravel-ms-image:v2
@@ -126,10 +123,32 @@ services:
       - default
     restart: on-failure
 
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: observapp
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - mongo:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - default
+
 volumes:
   observapp:
     driver: local
   pgsql:
+    driver: local
+  mongo:
     driver: local
 
 networks:
