@@ -31,7 +31,7 @@ interface LoadDataFormErrors {
 const LoadDataForm: React.FC<{}> = ({}) => {
   let initialValue: LoadDataFormValues = {
     name: "",
-    separator: ",",
+    separator: ";",
     file: undefined,
   };
 
@@ -79,7 +79,6 @@ const LoadDataForm: React.FC<{}> = ({}) => {
           touched,
           setFieldValue,
           setFieldTouched,
-          handleChange,
           values,
           resetForm,
         }) => (
@@ -101,36 +100,7 @@ const LoadDataForm: React.FC<{}> = ({}) => {
                     }
                   />
 
-                  <Select
-                    name="separator"
-                    placeholder="Separador"
-                    label="Separador"
-                    value={values.separator}
-                    onChange={handleChange("separator")}
-                  >
-                    {[
-                      {
-                        value: ",",
-                        label: "Coma (,)",
-                      },
-                      {
-                        value: ";",
-                        label: "Punto y coma (;)",
-                      },
-                      {
-                        value: "|",
-                        label: "Pipe (|)",
-                      },
-                    ].map((item) => (
-                      <SelectItem
-                        key={item.value}
-                        value={item.value}
-                        textValue={item.value}
-                      >
-                        {item.label}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                 
                   <FilePicker
                     name="filename"
                     value={values.file}

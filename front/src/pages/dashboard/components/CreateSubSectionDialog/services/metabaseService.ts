@@ -38,5 +38,7 @@ export const fetchMetaBaseDashboards = async (): Promise<
   let response = await httpMetaBaseClient.get<MetaBaseDashboardResponse[]>(
     "/dashboard"
   );
-  return response.data.map(metaBaseDashboardModelFromResponse);
+  let data = response.data.map(metaBaseDashboardModelFromResponse);
+  console.log(data)
+  return data;
 };

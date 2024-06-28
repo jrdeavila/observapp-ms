@@ -10,7 +10,7 @@ const GuestLayout: React.FC = () => {
   return (
     <div>
       <AppBar />
-      <MainLayout className="w-full">
+      <MainLayout className="w-full overflow-y-scroll overflow-x-hidden">
         <Outlet />
       </MainLayout>
       <Footer />

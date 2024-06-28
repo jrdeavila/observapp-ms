@@ -145,8 +145,7 @@ const CreateSubSectionDialog: React.FC<CreateSubSectionDialogProps> = ({
                         errorMessage={errors.dashboardId}
                         value={values.dashboardId}
                         onChange={(e) => {
-                          let index: number = parseInt(e.target.value) - 1;
-                          let id = dashboards[index].publicId;
+                          let id = dashboards.filter((d) => d.id === parseInt(e.target.value))[0].publicId;
                           setFieldValue("dashboardId", id);
                         }}
                       >
